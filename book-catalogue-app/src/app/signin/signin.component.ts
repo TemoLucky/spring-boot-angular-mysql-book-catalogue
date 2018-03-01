@@ -23,7 +23,6 @@ export class SigninComponent implements OnInit {
     const email = form.value.email;
     const password = form.value.password;
     this.user = {userName: email, password: password};
-    // this.authService.signinUser(email, password)
     this.serverService.storeServers(this.user).subscribe(
       (response) => {
         this.onLogin();

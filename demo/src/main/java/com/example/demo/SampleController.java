@@ -13,8 +13,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class SampleController {
-//    User currentUser;
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
     private final HttpSession httpSession;
@@ -32,10 +32,7 @@ public class SampleController {
         System.out.println(httpSession.getId());
         User currentUser =  userRepository.findByUserName(user.getUserName());
         if (currentUser != null && currentUser.getPassword().equals(user.getPassword())){
-            //System.out.println(currentUser.getPassword() + "  " + user.getPassword());
-//            this.httpSession = httpSession;
-            httpSession.setAttribute("user", currentUser);
-            httpSession.setAttribute("userName", currentUser.getUserName());
+            this.httpSession.setAttribute("user", currentUser);
             List<Book> books = currentUser.getBooks();
             return ResponseEntity.ok().body(books);
         }
@@ -49,18 +46,27 @@ public class SampleController {
 
     @GetMapping("/getFavourites")
     public List<Book> getFavourites(){
-//        User currentUser = (User) httpSession.getAttribute("user");
+        User currentUser = (User) httpSession.getAttribute("user");
         System.out.println(httpSession.getId());
-        String userName = (String) httpSession.getAttribute("userName");
-        User currentUser = userRepository.findByUserName(userName);
+//        String userName = (String) httpSession.getAttribute("userName");
+//        User currentUser = userRepository.findByUserName(userName);
         return currentUser.getBooks();
     }
 
-//    @PostMapping("deleteFavouriteBook")
-//    public String deleteFavourite(@RequestBody String id){
-//        int ID = Integer.parseInt(id);
-//        Book book = bookRepository.findOne(Long.valueOf(ID));
-//        currentUser.removeBook(book);
-//        return "Book with id: " + id + " will be deleted";
-//    }
+    @PostMapping("/deleteFavouriteBook")
+    public String deleteFavourite(@RequestBody String id){
+        User currentUser =(User) httpSession.getAttribute("user");
+        int ID = Integer.parseInt(id);
+        currentUser.getBooks().remove(ID);
+        userRepository.save(currentUser);
+        return "Book with id: " + id + " will be deleted";
+    }
+
+    @PostMapping("/addBookToFavourite")
+    public String addBookToFavourite(@RequestBody Book book){
+        User currentUser = (User) httpSession.getAttribute("user");
+        currentUser.getBooks().add(book);
+        userRepository.save(currentUser);
+        return "Success Book Was Deleted";
+    }
 }

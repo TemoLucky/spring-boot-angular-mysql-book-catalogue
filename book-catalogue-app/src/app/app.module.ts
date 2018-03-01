@@ -13,6 +13,7 @@ import {ServerService} from './server.service';
 import {AuthGuard} from './auth-guard.service';
 import {AuthService} from './auth.service';
 import { FavouritesComponent } from './favourites/favourites.component';
+import {FavService} from './fav.service';
 
 const appRoutes: Routes = [
   { path: '', canActivate: [AuthGuard], component: HomeComponent},
@@ -35,7 +36,7 @@ const appRoutes: Routes = [
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [ServerService, AuthGuard, AuthService],
+  providers: [ServerService, AuthGuard, AuthService, FavService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
