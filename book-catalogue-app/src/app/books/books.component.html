@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-8">
+
+      <a class="list-group-item clearfix" *ngFor="let book of books">
+        <div class="pull-left">
+          <h4 class="list-group-item-heading">{{ book.title }}</h4>
+          <p class="list-group-time-text">Author :{{ book.author }}</p>
+          <p class="list-group-time-text">Year :{{ book.year }}</p>
+          <p class="list-group-time-text">ISBN :{{ book.isbn }}</p>
+
+        </div>
+        <span class="pull-right">
+        <!--<img [src]="'http://ichef.bbci.co.uk/wwfeatures/wm/live/1280_640/images/live/p0/2v/dp/p02vdpfn.jpg'" alt="" class="img-responsive" style="max-height: 100px;">-->
+        <button class="btn btn-success">Add</button>
+        </span>
+      </a>
+
+    </div>
+  </div>
+</div>
