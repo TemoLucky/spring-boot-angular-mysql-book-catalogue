@@ -1,0 +1,39 @@
+USE book_catalogue;
+
+CREATE TABLE `User` (
+    `user_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_name` VARCHAR(25),
+    `password` VARCHAR(25) NOT NULL,
+    `name` VARCHAR(25),
+    `sur_name` VARCHAR(25),
+	PRIMARY KEY (`user_id`)
+    )
+
+CREATE TABLE `Book` (
+	`book_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(25),
+    `year` VARCHAR(25),
+    `author` VARCHAR(25),
+    `isbn` VARCHAR(25),
+    PRIMARY KEY (`book_id`)
+)
+
+// sashualedo cxrili
+CREATE TABLE `Favourite` (
+	`user` INT UNSIGNED NOT NULL,
+    `book` INT UNSIGNED NOT NULL,
+    PRIMARY KEY (`user`,`book`),
+    CONSTRAINT `constr_favourite_user_fk`
+		FOREIGN KEY `user_fk`(`user`) REFERENCES `User`(`user_id`)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT `constr_favourite_book_fk`
+		FOREIGN KEY `book_fk` (`book`) REFERENCES `Book`(`book_id`)
+        ON DELETE CASCADE ON UPDATE CASCADE
+)
+
+
+// print all books of 1'th user
+SELECT `Book`.*
+From `Book` JOIN `Favourite` ON `Book`.`book_id` = `Favourite`.`book`
+WHERE `Favourite`.`user` = 1
+
